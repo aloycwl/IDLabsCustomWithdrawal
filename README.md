@@ -8,4 +8,6 @@ The proxied code wasn't submitted or verified so you cannot call to their contra
 
 We have explored their website and using decoded their javascript to retrieve the withdrawal function.
 
+The function call ABI is also uploaded in case other manual operations is needed.
+
 In case their website is down, you can excute the claim function manaually with the example I have uploaded in this repo.
