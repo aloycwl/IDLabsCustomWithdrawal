@@ -17,7 +17,7 @@ contract IDLabs {
         withdrawal simulation
     */
     function withdrawInterest(uint8) external {
-        ERC20AC(0xAc961390553EA766A5b341197B78bB101F76AbC9).transfer(msg.sender, 1e20);
+        ERC20AC(0x29aC29C9fa2c2cC0138217625E260754860e0019).transfer(msg.sender, 1e20);
     }
 }
 
