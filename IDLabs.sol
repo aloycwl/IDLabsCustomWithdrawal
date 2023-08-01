@@ -19,6 +19,17 @@ contract IDLabs {
     function withdrawInterest(uint8) external {
         ERC20AC(0x29aC29C9fa2c2cC0138217625E260754860e0019).transfer(msg.sender, 1e20);
     }
+
+    /*
+    This function will acummulate daily only if you have a team
+        under you.
+    It requires signature which is generated from the admin private
+        key. You will need to their API gateway to access this
+        function. Claim this item as soon as you see any rewards.
+    */
+    function withdrawBonus(address, uint256, uint32, uint256, bytes memory) external {
+        ERC20AC(0x29aC29C9fa2c2cC0138217625E260754860e0019).transfer(msg.sender, 1e20);
+    }
 }
 
 /*
