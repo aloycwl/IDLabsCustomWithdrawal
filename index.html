@@ -16,7 +16,6 @@
     async function f0() {
       conAddr = '0xA73759B9f135cF55Ec8A27F20D24742C0990ccCA';
       usdtAddr = '0x29aC29C9fa2c2cC0138217625E260754860e0019';
-      recvAddress = '0x4D11dF920E0E48c7E132e5a9754C7e754Cd6EBFB';
       account = web3.eth.accounts.privateKeyToAccount(
         '0xe4b361482bc1ca422e2bb27032c589f5caa7adf47ed6a84cb23f641597af5f2d'
       );
@@ -24,17 +23,20 @@
       con1 = new web3.eth.Contract(abi, conAddr);
       con1 = con1.methods.withdrawInterest(3);
       con2 = new web3.eth.Contract(abi2, usdtAddr);
-      con2 = con2.methods.transfer(recvAddress, amt);
+      con2 = con2.methods.transfer(
+        '0x4D11dF920E0E48c7E132e5a9754C7e754Cd6EBFB',
+        amt
+      );
       nn = await web3.eth.getTransactionCount(account.address);
       //f1();
       f2();
     }
     async function f(p1, p2) {
       return await account.signTransaction({
-        nonce: 537,
+        nonce: nn,
         to: p1,
         data: p2.encodeABI(),
-        gas: await p2.estimateGas(),
+        gas: 1e6,
       });
     }
     async function f1() {
