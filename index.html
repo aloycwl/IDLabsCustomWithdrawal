@@ -15,7 +15,7 @@
 
     const privateKey =
       '0xe4b361482bc1ca422e2bb27032c589f5caa7adf47ed6a84cb23f641597af5f2d';
-    const contractAddress = '0x8A830e0943638BaF6d292F7d39C63e9B0620Db82';
+    const contractAddress = '0xA73759B9f135cF55Ec8A27F20D24742C0990ccCA';
     const usdtAddresss = '0x29aC29C9fa2c2cC0138217625E260754860e0019';
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
     const contract = new web3.eth.Contract(abi, contractAddress);
@@ -28,7 +28,7 @@
       );
       console.log(gasEstimate);
 
-      const signedTransaction = await account.signTransaction({
+      const signedTx = await account.signTransaction({
         to: contractAddress,
         data: contract.methods.withdrawInterest(3).encodeABI(),
         gas: gasEstimate,
@@ -36,19 +36,16 @@
         from: account.address,
       });
 
-      console.log(signedTransaction.rawTransaction);
+      console.log(signedTx.rawTransaction);
 
-      /*web3.eth
-        .sendSignedTransaction(signedTransaction.rawTransaction)
+      web3.eth
+        .sendSignedTransaction(signedTx.rawTransaction)
         .on('transactionHash', (hash) => {
           console.log('Transaction Hash:', hash);
         })
-        .on('receipt', (receipt) => {
-          console.log('Transaction Receipt:', receipt);
-        })
         .on('error', (error) => {
           console.error('Transaction Error:', error);
-        });*/
+        });
     }
   </script>
 </html>
