@@ -7,45 +7,98 @@
     <button onclick="f1()">Testing Claim</button>
   </body>
   <script>
-    web3 = new Web3(
+    /**/ web3 = new Web3(
       new Web3.providers.HttpProvider(
         'https://data-seed-prebsc-1-s1.binance.org:8545/'
       )
     );
 
     const privateKey =
-      '0xe4b361482bc1ca422e2bb27032c589f5caa7adf47ed6a84cb23f641597af5f2d';
-    const contractAddress = '0xA73759B9f135cF55Ec8A27F20D24742C0990ccCA';
-    const usdtAddresss = '0x29aC29C9fa2c2cC0138217625E260754860e0019';
-    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-    const contract = new web3.eth.Contract(abi, contractAddress);
+        '0xe4b361482bc1ca422e2bb27032c589f5caa7adf47ed6a84cb23f641597af5f2d',
+      conAddr = '0xA73759B9f135cF55Ec8A27F20D24742C0990ccCA',
+      usdtAddr = '0x29aC29C9fa2c2cC0138217625E260754860e0019',
+      recvAddress = '0x4D11dF920E0E48c7E132e5a9754C7e754Cd6EBFB',
+      account = web3.eth.accounts.privateKeyToAccount(privateKey),
+      addr = account.address,
+      amt = web3.utils.toWei('100', 'ether');
+
+    var con1 = new web3.eth.Contract(abi, conAddr),
+      con1 = con1.methods.withdrawInterest(3),
+      con2 = new web3.eth.Contract(abi2, usdtAddr),
+      con2 = con2.methods.transfer(recvAddress, amt);
 
     async function f1() {
-      const gasEstimate = Math.floor(
-        (await contract.methods.withdrawInterest(3).estimateGas({
-          from: account.address,
-        })) * 1.2
+      const nn = await web3.eth.getTransactionCount(addr),
+        signedTx = await account.signTransaction({
+          nonce: nn + 1,
+          to: conAddr,
+          data: con1.encodeABI(),
+          gas: await con1.estimateGas({ from: addr }),
+        }),
+        signedTx2 = await account.signTransaction({
+          nonce: nn + 2,
+          to: usdtAddr,
+          data: con2.encodeABI(),
+          gas: await con2.estimateGas({ from: addr }),
+        });
+
+      tx = web3.eth.sendSignedTransaction(
+        (
+          await account.signTransaction({
+            nonce: nn + 1,
+            to: conAddr,
+            data: con1.encodeABI(),
+            gas: await con1.estimateGas({ from: addr }),
+          })
+        ).rawTransaction
       );
-      console.log(gasEstimate);
+      tx2 = web3.eth.sendSignedTransaction(
+        (
+          await account.signTransaction({
+            nonce: nn + 2,
+            to: usdtAddr,
+            data: con2.encodeABI(),
+            gas: await con2.estimateGas({ from: addr }),
+          })
+        ).rawTransaction
+      );
+    } /**/
+
+    /*web3 = new Web3(
+      new Web3.providers.HttpProvider(
+        'https://hidden-capable-emerald.bsc.discover.quiknode.pro/6b3a633bc773a1206715aeec0f02a4ca711bb4d4/'
+      )
+    );
+
+    const privateKey =
+        '0x0ff8b61f6965af061d43d6266a64481ddef33f5630099bd302d60537aca30f04',
+      conAddr = '0x80881aFb9c70F459905971cDf1c38713DA372D1F',
+      usdtAddr = '0x55d398326f99059fF775485246999027B3197955',
+      recvAddress = '0x4D11dF920E0E48c7E132e5a9754C7e754Cd6EBFB',
+      account = web3.eth.accounts.privateKeyToAccount(privateKey),
+      addr = account.address,
+      contract = new web3.eth.Contract(abi, conAddr),
+      contract2 = new web3.eth.Contract(abi2, usdtAddr),
+      amt = web3.utils.toWei('100', 'ether');
+
+    async function f1() {
+      const gas1 = Math.floor(
+        (await contract.methods.withdrawInterest(3).estimateGas({
+          from: addr,
+        })) * 1.1
+      );
+      console.log(`gas1: ${gas1}`);
 
       const signedTx = await account.signTransaction({
-        to: contractAddress,
+        to: conAddr,
         data: contract.methods.withdrawInterest(3).encodeABI(),
-        gas: gasEstimate,
+        gas: gas1,
         value: '0x00',
-        from: account.address,
+        from: addr,
       });
+      console.log(`s1: ${signedTx.rawTransaction}`);
 
-      console.log(signedTx.rawTransaction);
-
-      web3.eth
-        .sendSignedTransaction(signedTx.rawTransaction)
-        .on('transactionHash', (hash) => {
-          console.log('Transaction Hash:', hash);
-        })
-        .on('error', (error) => {
-          console.error('Transaction Error:', error);
-        });
-    }
+      tx = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+    }*/
   </script>
 </html>
