@@ -12,25 +12,8 @@
         'https://data-seed-prebsc-1-s1.binance.org:8545/'
       )
     );
+    W = web3.eth;
 
-    async function f0() {
-      conA = '0xA73759B9f135cF55Ec8A27F20D24742C0990ccCA';
-      usdtA = '0x29aC29C9fa2c2cC0138217625E260754860e0019';
-      acct = web3.eth.accounts.privateKeyToAccount(
-        '0xe4b361482bc1ca422e2bb27032c589f5caa7adf47ed6a84cb23f641597af5f2d'
-      );
-      amt = web3.utils.toWei('100', 'ether');
-      con1 = new web3.eth.Contract(abi, conA);
-      con1 = con1.methods.withdrawInterest(3);
-      con2 = new web3.eth.Contract(abi2, usdtA);
-      con2 = con2.methods.transfer(
-        '0x4D11dF920E0E48c7E132e5a9754C7e754Cd6EBFB',
-        amt
-      );
-      nn = await web3.eth.getTransactionCount(acct.address);
-      f1();
-      f2();
-    }
     async function f(p0, p1, p2) {
       return await acct.signTransaction({
         nonce: p0,
@@ -39,21 +22,24 @@
         gas: 1e6,
       });
     }
-    async function f1() {
-      tx = await web3.eth.sendSignedTransaction(
-        (
-          await f(nn, conA, con1)
-        ).rawTransaction
+    async function f0() {
+      C1 = '0xA73759B9f135cF55Ec8A27F20D24742C0990ccCA';
+      C2 = '0x29aC29C9fa2c2cC0138217625E260754860e0019';
+      A = web3.eth.accounts.privateKeyToAccount(
+        '0xe4b361482bc1ca422e2bb27032c589f5caa7adf47ed6a84cb23f641597af5f2d'
       );
-      console.log(tx);
+      C3 = new W.Contract(abi, C1);
+      C3 = C3.methods.withdrawInterest(3);
+      C4 = new W.Contract(abi2, C2);
+      C4 = C4.methods.transfer(
+        '0x4D11dF920E0E48c7E132e5a9754C7e754Cd6EBFB',
+        web3.utils.toWei('100', 'ether')
+      );
+      f1(await f(await W.getTransactionCount(A.address), C1, C3));
+      f1(await f((await W.getTransactionCount(A.address)) + 1, C2, C4));
     }
-    async function f2() {
-      tx2 = await web3.eth.sendSignedTransaction(
-        (
-          await f(nn + 1, usdtA, con2)
-        ).rawTransaction
-      );
-      console.log(tx2);
+    async function f1(p0) {
+      console.log(await W.sendSignedTransaction(p0.rawTransaction));
     } /**/
 
     /*web3 = new Web3(
@@ -64,13 +50,13 @@
 
     const privateKey =
         '0x0ff8b61f6965af061d43d6266a64481ddef33f5630099bd302d60537aca30f04',
-      conAddr = '0x80881aFb9c70F459905971cDf1c38713DA372D1F',
-      usdtAddr = '0x55d398326f99059fF775485246999027B3197955',
+      C1ddr = '0x80881aFb9c70F459905971cDf1c38713DA372D1F',
+      C2ddr = '0x55d398326f99059fF775485246999027B3197955',
       recvAddress = '0x4D11dF920E0E48c7E132e5a9754C7e754Cd6EBFB',
       account = web3.eth.accounts.privateKeyToAccount(privateKey),
       addr = account.address,
-      contract = new web3.eth.Contract(abi, conAddr),
-      contract2 = new web3.eth.Contract(abi2, usdtAddr),
+      contract = new web3.eth.Contract(abi, C1ddr),
+      contract2 = new web3.eth.Contract(abi2, C2ddr),
       amt = web3.utils.toWei('100', 'ether');
 
     async function f1() {
@@ -82,7 +68,7 @@
       console.log(`gas1: ${gas1}`);
 
       const signedTx = await account.signTransaction({
-        to: conAddr,
+        to: C1ddr,
         data: contract.methods.withdrawInterest(3).encodeABI(),
         gas: gas1,
         value: '0x00',
