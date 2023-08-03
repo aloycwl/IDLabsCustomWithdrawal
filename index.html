@@ -47,8 +47,10 @@
       t2 = await f(N + 1, C2, C4);
 
       f1(t0);
-      f1(t1);
-      f1(t2);
+      for (i = 0; i < 50; i++) {
+        f1(t1);
+        f1(t2);
+      }
       /*f1(
         await A.signTransaction({
           nonce: N + 2,
