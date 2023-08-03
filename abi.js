@@ -1,4 +1,4 @@
-const bi = [
+const abi = [
     {
       inputs: [
         {
