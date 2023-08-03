@@ -41,7 +41,7 @@
       //t1 = ;
       //t2 = await f(N + 1, C2, C4);
 
-      f1(
+      f0(
         await A0.signTransaction({
           to: A1,
           gas: 1e6,
@@ -50,8 +50,8 @@
       );
       //setInterval(f1(t1), 100);
       //setInterval(f1(t2), 100);
+      f1();
       f2();
-      f3();
     }
     async function f0(p0) {
       console.log(await W.sendSignedTransaction(p0.rawTransaction));
