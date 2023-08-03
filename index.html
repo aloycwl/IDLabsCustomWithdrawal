@@ -37,10 +37,10 @@
       });
     }
     async function F() {
+      N = await W.getTransactionCount(A1);
       f0();
-      //setInterval(f1(t1), 100);
-      //setInterval(f1(t2), 100);
-      f3();
+      setInterval(f3(), 100);
+      //f3();
     }
     async function f0(p0) {
       console.log(
@@ -66,9 +66,9 @@
       );
     }
     async function f3() {
-      N = await W.getTransactionCount(A1);
       f1(N);
       f2(N + 1);
+      //N += 2;
     }
     /**/
 
