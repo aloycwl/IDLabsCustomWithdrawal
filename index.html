@@ -38,7 +38,7 @@
       const gasEstimate =
         (await contract.methods.withdrawInterest(3).estimateGas({
           from: account.address,
-        })) * 2;
+        })) * 1.2;
       console.log(gasEstimate);
 
       const transactionObject = {
