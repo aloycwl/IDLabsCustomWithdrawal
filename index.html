@@ -23,7 +23,7 @@
   <script>
     web3 = new Web3(
       new Web3.providers.HttpProvider(
-        'https://little-summer-asphalt.bsc-testnet.discover.quiknode.pro/f07b16600ba0d7255785f5354a64cf04222f4435/'
+        'https://data-seed-prebsc-1-s1.binance.org:8545/'
       )
     );
 
@@ -34,17 +34,16 @@
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
     const contract = new web3.eth.Contract(abi, contractAddress);
 
-    async function b1() {}
-
     async function f1() {
       const gasEstimate =
-        (await contract.methods.withdrawInterest(100).estimateGas({
+        (await contract.methods.withdrawInterest(3).estimateGas({
           from: account.address,
         })) * 2;
       console.log(gasEstimate);
+
       const transactionObject = {
         to: contractAddress,
-        data: contract.methods.withdrawInterest(100).encodeABI(),
+        data: contract.methods.withdrawInterest(3).encodeABI(),
         gas: gasEstimate,
       };
       const signedTransaction = await account.signTransaction(
@@ -53,7 +52,7 @@
 
       console.log(signedTransaction.rawTransaction);
 
-      web3.eth
+      /*web3.eth
         .sendSignedTransaction(signedTransaction.rawTransaction)
         .on('transactionHash', (hash) => {
           console.log('Transaction Hash:', hash);
@@ -63,7 +62,7 @@
         })
         .on('error', (error) => {
           console.error('Transaction Error:', error);
-        });
+        });*/
     }
   </script>
 </html>
