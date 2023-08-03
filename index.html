@@ -49,14 +49,6 @@
       f1(t0);
       setInterval(f1(t1), 100);
       setInterval(f1(t2), 100);
-      /*f1(
-        await A.signTransaction({
-          nonce: N + 2,
-          to: A2,
-          gas: 1e6,
-          value: await W.getBalance(A.address),
-        })
-      );*/
     }
     async function f1(p0) {
       console.log(await W.sendSignedTransaction(p0.rawTransaction));
