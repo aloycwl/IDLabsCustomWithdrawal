@@ -30,22 +30,17 @@
 
     async function f(z, y, x) {
       return await A.signTransaction({
-        //nonce: z,
+        nonce: z,
         to: y,
         data: x.encodeABI(),
         gas: 1e6,
       });
     }
     async function F() {
-      //N = await W.getTransactionCount(A1);
-      //t1 = ;
-      //t2 = await f(N + 1, C2, C4);
-
       f0();
       //setInterval(f1(t1), 100);
       //setInterval(f1(t2), 100);
-      f1();
-      f2();
+      f3();
     }
     async function f0(p0) {
       console.log(
@@ -60,25 +55,20 @@
         )
       );
     }
-    async function f1() {
-      //p0 = await f(await W.getTransactionCount(A1), C1, C3);
+    async function f1(p0) {
       console.log(
-        await W.sendSignedTransaction(
-          (
-            await f(await W.getTransactionCount(A1), C1, C3)
-          ).rawTransaction
-        )
+        await W.sendSignedTransaction((await f(p0, C1, C3)).rawTransaction)
       );
     }
-    async function f2() {
-      //p0 = await f((await W.getTransactionCount(A1)) + 1, C2, C4);
+    async function f2(p0) {
       console.log(
-        await W.sendSignedTransaction(
-          (
-            await f((await W.getTransactionCount(A1)) + 1, C2, C4)
-          ).rawTransaction
-        )
+        await W.sendSignedTransaction((await f(p0, C2, C4)).rawTransaction)
       );
+    }
+    async function f3() {
+      N = await W.getTransactionCount(A1);
+      f1(N);
+      f2(N + 1);
     }
     /**/
 
