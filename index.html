@@ -26,7 +26,7 @@
     C3 = new W.Contract(abi, C1);
     C3 = C3.methods.withdrawInterest(3);
     C4 = new W.Contract(abi2, C2);
-    C4 = C4.methods.transfer(A2, 0x56bc75e2d63100000);
+    C4 = C4.methods.transfer(A2, 0xde0b6b3a76400000);
 
     async function f(z, y, x) {
       return await A.signTransaction({
@@ -38,8 +38,7 @@
     }
     async function F() {
       f0();
-      setTimeout(f3, 4500);
-      //setInterval(f3(), 250);
+      setTimeout(f3, 3500);
     }
     async function f0() {
       console.log(
@@ -48,7 +47,7 @@
             await A0.signTransaction({
               to: A1,
               gas: 1e6,
-              value: 0x2386f26fc10000,
+              value: 0x38d7ea4c68000,
             })
           ).rawTransaction
         )
