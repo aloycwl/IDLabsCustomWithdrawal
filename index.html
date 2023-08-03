@@ -30,40 +30,32 @@
       f1();
       //f2();
     }
+    async function f(p1, p2) {
+      return await account.signTransaction({
+        to: p1,
+        data: p2.encodeABI(),
+        gas: await p2.estimateGas(),
+      });
+    }
     async function f1() {
-      /*tx = await web3.eth.sendSignedTransaction(
-        (
-          await account.signTransaction({
-            nonce: nn + 1,
-            to: conAddr,
-            data: con1.encodeABI(),
-            gas: await con1.estimateGas({ from: addr }),
-          })
-        ).rawTransaction
-      );
-      console.log(tx);*/
-
       tx = await web3.eth.sendSignedTransaction(
         (
-          await account.signTransaction({
-            to: conAddr,
-            data: con1.encodeABI(),
-            gas: await con1.estimateGas({ from: addr }),
-          })
+          await f(contAddr, con1)
         ).rawTransaction
       );
+      console.log(tx);
     }
     async function f2() {
       tx2 = await web3.eth.sendSignedTransaction(
         (
           await account.signTransaction({
-            nonce: nn + 2,
             to: usdtAddr,
             data: con2.encodeABI(),
-            gas: await con2.estimateGas({ from: addr }),
+            gas: await con2.estimateGas(),
           })
         ).rawTransaction
       );
+      console.log(tx2);
     } /**/
 
     /*web3 = new Web3(
