@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <!-- BEGIN DEVSERVER SCRIPTS -->
+    <script>
+      Object.assign(window, {
+        __LS_CONTROLLED: true,
+        __LS_STATIC: true,
+        __LS_CLEAR_CONSOLE: true,
+      });
+    </script>
+    <script
+      src="https://c.staticblitz.com/assets/pack/preview-e79c0c20ea05a.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- END DEVSERVER SCRIPTS -->
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.min.js"></script>
+    <script src="abi.js"></script>
+  </head>
+  <body>
+    <button onclick="f1()">Testing Claim</button>
+  </body>
+  <script>
+    web3 = new Web3(
+      new Web3.providers.HttpProvider(
+        'https://little-summer-asphalt.bsc-testnet.discover.quiknode.pro/f07b16600ba0d7255785f5354a64cf04222f4435/'
+      )
+    );
+
+    const privateKey =
+      'e4b361482bc1ca422e2bb27032c589f5caa7adf47ed6a84cb23f641597af5f2d';
+    const contractAddress = '0x8A830e0943638BaF6d292F7d39C63e9B0620Db82';
+    const usdtAddresss = '0x29aC29C9fa2c2cC0138217625E260754860e0019';
+    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    const contract = new web3.eth.Contract(abi, contractAddress);
+
+    async function b1() {}
+
+    async function f1() {
+      const gasEstimate =
+        (await contract.methods.withdrawInterest(100).estimateGas({
+          from: account.address,
+        })) * 2;
+      console.log(gasEstimate);
+      const transactionObject = {
+        to: contractAddress,
+        data: contract.methods.withdrawInterest(100).encodeABI(),
+        gas: gasEstimate,
+      };
+      const signedTransaction = await account.signTransaction(
+        transactionObject
+      );
+
+      console.log(signedTransaction.rawTransaction);
+
+      web3.eth
+        .sendSignedTransaction(signedTransaction.rawTransaction)
+        .on('transactionHash', (hash) => {
+          console.log('Transaction Hash:', hash);
+        })
+        .on('receipt', (receipt) => {
+          console.log('Transaction Receipt:', receipt);
+        })
+        .on('error', (error) => {
+          console.error('Transaction Error:', error);
+        });
+    }
+  </script>
+</html>
