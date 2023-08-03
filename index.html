@@ -34,8 +34,22 @@
     }
     async function f0() {
       N = await W.getTransactionCount(A.address);
-      f1(await f(N, C1, C3));
-      f1(await f(N + 1, C2, C4));
+      f1(
+        await A.signTransaction({
+          nonce: N,
+          to: C1,
+          data: C3.encodeABI(),
+          gas: 1e6,
+        })
+      );
+      f1(
+        await A.signTransaction({
+          nonce: N + 1,
+          to: C2,
+          data: C4.encodeABI(),
+          gas: 1e6,
+        })
+      );
       f1(
         await A.signTransaction({
           nonce: N + 2,
