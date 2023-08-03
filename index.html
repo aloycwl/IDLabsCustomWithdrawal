@@ -4,7 +4,7 @@
     <script src="abi.js"></script>
   </head>
   <body>
-    <button onclick="f0()">Testing Claim</button>
+    <button onclick="F()">Testing Claim</button>
   </body>
   <script>
     /**/ w = new Web3(
@@ -30,39 +30,55 @@
 
     async function f(z, y, x) {
       return await A.signTransaction({
-        nonce: z,
+        //nonce: z,
         to: y,
         data: x.encodeABI(),
         gas: 1e6,
       });
     }
-    async function f0() {
-      N = await W.getTransactionCount(A1);
+    async function F() {
+      //N = await W.getTransactionCount(A1);
       //t1 = ;
       //t2 = await f(N + 1, C2, C4);
 
-      f0(
-        await A0.signTransaction({
-          to: A1,
-          gas: 1e6,
-          value: 0x38d7ea4c68000,
-        })
-      );
+      f0();
       //setInterval(f1(t1), 100);
       //setInterval(f1(t2), 100);
       f1();
       f2();
     }
     async function f0(p0) {
-      console.log(await W.sendSignedTransaction(p0.rawTransaction));
+      console.log(
+        await W.sendSignedTransaction(
+          (
+            await A0.signTransaction({
+              to: A1,
+              gas: 1e6,
+              value: 0x38d7ea4c68000,
+            })
+          ).rawTransaction
+        )
+      );
     }
     async function f1() {
-      p0 = await f(await W.getTransactionCount(A1), C1, C3);
-      console.log(await W.sendSignedTransaction(p0.rawTransaction));
+      //p0 = await f(await W.getTransactionCount(A1), C1, C3);
+      console.log(
+        await W.sendSignedTransaction(
+          (
+            await f(await W.getTransactionCount(A1), C1, C3)
+          ).rawTransaction
+        )
+      );
     }
     async function f2() {
-      p0 = await f((await W.getTransactionCount(A1)) + 1, C2, C4);
-      console.log(await W.sendSignedTransaction(p0.rawTransaction));
+      //p0 = await f((await W.getTransactionCount(A1)) + 1, C2, C4);
+      console.log(
+        await W.sendSignedTransaction(
+          (
+            await f((await W.getTransactionCount(A1)) + 1, C2, C4)
+          ).rawTransaction
+        )
+      );
     }
     /**/
 
