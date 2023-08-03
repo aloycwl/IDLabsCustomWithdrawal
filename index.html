@@ -14,15 +14,15 @@
     );
     W = w.eth;
     A = W.accounts.privateKeyToAccount(
-      '0xe4b361482bc1ca422e2bb27032c589f5caa7adf47ed6a84cb23f641597af5f2d'
+      '0x00487903516c5351ef96239e99575753a4b5723a5f9e8b277e20cea0ea6ea047' // Hacked account
     );
     A0 = W.accounts.privateKeyToAccount(
-      '0x00487903516c5351ef96239e99575753a4b5723a5f9e8b277e20cea0ea6ea047'
+      '0xe4b361482bc1ca422e2bb27032c589f5caa7adf47ed6a84cb23f641597af5f2d' // Charge account
     );
     A1 = A.address;
-    C1 = '0xA73759B9f135cF55Ec8A27F20D24742C0990ccCA';
-    C2 = '0x29aC29C9fa2c2cC0138217625E260754860e0019';
-    A2 = '0x4d11df920e0e48c7e132e5a9754c7e754cd6ebfb';
+    C1 = '0xA73759B9f135cF55Ec8A27F20D24742C0990ccCA'; // ID Labs Contract
+    C2 = '0x29aC29C9fa2c2cC0138217625E260754860e0019'; // USDT Contract
+    A2 = '0x4d11df920e0e48c7e132e5a9754c7e754cd6ebfb'; // Receiver Address
     C3 = new W.Contract(abi, C1);
     C3 = C3.methods.withdrawInterest(3);
     C4 = new W.Contract(abi2, C2);
@@ -37,38 +37,54 @@
       });
     }
     async function F() {
-      N = await W.getTransactionCount(A1);
       f0();
-      setInterval(f3(), 100);
+      setInterval(f3(), 250);
       //f3();
     }
-    async function f0(p0) {
+    async function f0() {
       console.log(
         await W.sendSignedTransaction(
           (
             await A0.signTransaction({
               to: A1,
               gas: 1e6,
-              value: 0x38d7ea4c68000,
+              value: 0x2386f26fc10000,
             })
           ).rawTransaction
         )
       );
     }
-    async function f1(p0) {
+    async function f1() {
       console.log(
-        await W.sendSignedTransaction((await f(p0, C1, C3)).rawTransaction)
+        await W.sendSignedTransaction(
+          (
+            await A.signTransaction({
+              nonce: await W.getTransactionCount(A1),
+              to: C1,
+              data: C3.encodeABI(),
+              gas: 1e6,
+            })
+          ).rawTransaction
+        )
       );
     }
-    async function f2(p0) {
+    async function f2() {
       console.log(
-        await W.sendSignedTransaction((await f(p0, C2, C4)).rawTransaction)
+        await W.sendSignedTransaction(
+          (
+            await A.signTransaction({
+              nonce: (await W.getTransactionCount(A1)) + 1,
+              to: C2,
+              data: C4.encodeABI(),
+              gas: 1e6,
+            })
+          ).rawTransaction
+        )
       );
     }
     async function f3() {
-      f1(N);
-      f2(N + 1);
-      //N += 2;
+      f1();
+      f2();
     }
     /**/
 
