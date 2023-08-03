@@ -42,17 +42,16 @@
         ).rawTransaction
       );
       console.log(tx);*/
-      const signedTx = await account.signTransaction({
-        // nonce: (await web3.eth.getTransactionCount(addr)) + 1,
-        to: conAddr,
-        data: con1.encodeABI(),
-        gas: await con1.estimateGas({ from: addr }),
-        from: addr,
-        value: 0,
-      });
-      console.log(`s1: ${signedTx.rawTransaction}`);
 
-      tx = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+      tx = await web3.eth.sendSignedTransaction(
+        (
+          await account.signTransaction({
+            to: conAddr,
+            data: con1.encodeABI(),
+            gas: await con1.estimateGas({ from: addr }),
+          })
+        ).rawTransaction
+      );
     }
     async function f2() {
       tx2 = await web3.eth.sendSignedTransaction(
