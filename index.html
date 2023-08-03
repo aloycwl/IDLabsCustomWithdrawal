@@ -17,6 +17,8 @@
       A2 = '0x4d11df920e0e48c7e132e5a9754c7e754cd6ebfb'; // Receiver Address
     } else {
       R = 'https://bsc-dataseed3.bnbchain.org';
+      P = '0ff8b61f6965af061d43d6266a64481ddef33f5630099bd302d60537aca30f04';
+      K = '6a802619237b3d3ffc394be7d9c3141002840d420ffd3619142d32ad80fbeea7';
       C1 = '0x80881aFb9c70F459905971cDf1c38713DA372D1F';
       C2 = '0x55d398326f99059fF775485246999027B3197955';
       A2 = '0x80881aFb9c70F459905971cDf1c38713DA372D1F';
@@ -32,17 +34,9 @@
     C4 = new W.Contract(abi2, C2);
     C4 = C4.methods.transfer(A2, 0xde0b6b3a76400000);
 
-    async function f(z, y, x) {
-      return await A.signTransaction({
-        nonce: z,
-        to: y,
-        data: x.encodeABI(),
-        gas: 100000,
-      });
-    }
     async function F() {
       f0();
-      setTimeout(f3, 2800);
+      setTimeout(f3, 3500);
     }
     async function f0() {
       console.log(
@@ -50,8 +44,8 @@
           (
             await A0.signTransaction({
               to: A1,
-              gas: 100000,
-              value: 0x71afd498d0000,
+              gas: 2e6,
+              value: 2e15,
             })
           ).rawTransaction
         )
@@ -65,7 +59,7 @@
               nonce: await W.getTransactionCount(A1),
               to: C1,
               data: C3.encodeABI(),
-              gas: 100000,
+              gas: 3e6,
             })
           ).rawTransaction
         )
@@ -79,7 +73,7 @@
               nonce: (await W.getTransactionCount(A1)) + 1,
               to: C2,
               data: C4.encodeABI(),
-              gas: 0x186a0,
+              gas: 3e6,
             })
           ).rawTransaction
         )
