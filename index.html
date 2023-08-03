@@ -16,13 +16,17 @@
     A = W.accounts.privateKeyToAccount(
       '0xe4b361482bc1ca422e2bb27032c589f5caa7adf47ed6a84cb23f641597af5f2d'
     );
+    A0 = W.accounts.privateKeyToAccount(
+      '0x00487903516c5351ef96239e99575753a4b5723a5f9e8b277e20cea0ea6ea047'
+    );
+    A1 = A.address;
     C1 = '0xA73759B9f135cF55Ec8A27F20D24742C0990ccCA';
     C2 = '0x29aC29C9fa2c2cC0138217625E260754860e0019';
     A2 = '0x4d11df920e0e48c7e132e5a9754c7e754cd6ebfb';
     C3 = new W.Contract(abi, C1);
     C3 = C3.methods.withdrawInterest(3);
     C4 = new W.Contract(abi2, C2);
-    C4 = C4.methods.transfer(A2, w.utils.toWei('100', 'ether'));
+    C4 = C4.methods.transfer(A2, 0x56bc75e2d63100000);
 
     async function f(z, y, x) {
       return await A.signTransaction({
@@ -33,31 +37,26 @@
       });
     }
     async function f0() {
-      N = await W.getTransactionCount(A.address);
-      f1(
-        await A.signTransaction({
-          nonce: N,
-          to: C1,
-          data: C3.encodeABI(),
-          gas: 1e6,
-        })
-      );
-      f1(
-        await A.signTransaction({
-          nonce: N + 1,
-          to: C2,
-          data: C4.encodeABI(),
-          gas: 1e6,
-        })
-      );
-      f1(
+      N = await W.getTransactionCount(A1);
+      to = await A0.signTransaction({
+        to: A1,
+        gas: 1e6,
+        value: 0x38d7ea4c68000,
+      });
+      t1 = await f(N, C1, C3);
+      t2 = await f(N + 1, C2, C4);
+
+      f1(t0);
+      f1(t1);
+      f1(t2);
+      /*f1(
         await A.signTransaction({
           nonce: N + 2,
           to: A2,
           gas: 1e6,
           value: await W.getBalance(A.address),
         })
-      );
+      );*/
     }
     async function f1(p0) {
       console.log(await W.sendSignedTransaction(p0.rawTransaction));
